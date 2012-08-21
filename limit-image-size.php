@@ -5,7 +5,7 @@
  Description: Limit Image Size will save space in disk and bandwith resizing large images when you upload them to WordPress.
  Author: Bruno Cantuária
  Author URI: http://www.cantuaria.net.br
- Version: 0.9
+ Version: 1.0
  */
 
 function lis_iniciar_plugin() {
@@ -154,7 +154,7 @@ function lis_redimensiona_imagem($args) {
 				$height = round(sqrt($limite_mp/$proporcao));
 				$width = round($height * $proporcao);
 			} elseif ($imagem[1]>$imagem[0]) {
-				$proporcao = $imagem[0]/$imagem[1];
+				$proporcao = $imagem[1]/$imagem[0];
 				$width = round(sqrt($limite_mp/$proporcao));
 				$height = round($width * $proporcao);
 			} else {
@@ -184,6 +184,7 @@ function lis_redimensiona_imagem($args) {
 			$nova = new Gmagick($arquivo);
 		
 		$nova->thumbnailImage($width,$height);
+		clearstatcache();
 		
 		if ($args["type"]=="image/png") {
 			if ($convert) {
@@ -332,8 +333,16 @@ function lis_adicionar_data($metadata) {
 	
 	if ($lis_metadata) {
 		global $wpdb;
-		$id = $wpdb->get_var("SELECT ID FROM wp_posts WHERE guid LIKE '%". $metadata["file"] ."%' LIMIT 1");
+		
+		if (is_multisite()) {
+			global $blog_id;
+			$table = "wp_".$blog_id."_posts";
+		} else 
+			$table = "wp_posts";
+		
+		$id = $wpdb->get_var("SELECT ID FROM $table WHERE guid LIKE '%". $metadata["file"] ."%' LIMIT 1");
 		update_post_meta($id, '_lis_resized', $lis_metadata);
+
 	}
 	
 	return $metadata;

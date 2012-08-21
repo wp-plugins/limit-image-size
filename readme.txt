@@ -4,7 +4,7 @@ Donate link: http://cantuaria.net.br/limit-image-size/
 Tags: image, resize, limit, size, megapixel
 Requires at least: 2.7.0
 Tested up to: 3.4
-Stable tag: 0.9
+Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -57,10 +57,20 @@ If a Fatar Error is displayed is because the site doesn't have enough memory to 
 
 == Changelog ==
 
+= 1.0 =
+* Limit Image Size now is fully compatible with MultiSite.
+* Fixed the math calculation when resizing an image higher than wider.
+* Fixed an issue which was informing a incorrect file size.
+
 = 0.9 =
 * First Public Version
 
 == Upgrade Notice ==
+
+= 1.0 =
+* Limit Image Size now is fully compatible with MultiSite.
+* Fixed the math calculation when resizing an image higher than wider.
+* Fixed an issue which was informing a incorrect file size.
 
 = 0.9 =
 * First Public Version
